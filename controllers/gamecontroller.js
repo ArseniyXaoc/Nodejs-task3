@@ -9,14 +9,12 @@ router.get('/all', (req, res) => {
                     games: games,
                     message: "Data fetched."
                 })
-            },
-
-            function findFail() {
-                res.status(500).json({
-                    message: "Data not found"
-                })
-            }
-        )
+            })
+        .catch(function findFail() {
+            res.status(500).json({
+                message: "Data not found"
+            })
+        })
 })
 
 router.get('/:id', (req, res) => {
@@ -26,9 +24,8 @@ router.get('/:id', (req, res) => {
                 res.status(200).json({
                     game: game
                 })
-            },
-
-            function findFail(err) {
+            })
+        .catch(function findFail(err) {
                 res.status(500).json({
                     message: "Data not found."
                 })
@@ -51,9 +48,8 @@ router.post('/create', (req, res) => {
                     game: game,
                     message: "Game created."
                 })
-            },
-
-            function createFail(err) {
+            })
+        .catch(function createFail(err) {
                 res.status(500).send(err.message)
             }
         )
@@ -79,9 +75,8 @@ router.put('/update/:id', (req, res) => {
                     game: game,
                     message: "Successfully updated."
                 })
-            },
-
-            function updateFail(err) {
+            })
+        .catch(function updateFail(err) {
                 res.status(500).json({
                     message: err.message
                 })
@@ -103,9 +98,8 @@ router.delete('/remove/:id', (req, res) => {
                 game: game,
                 message: "Successfully deleted"
             })
-        },
-
-        function deleteFail(err) {
+        })
+        .catch(function deleteFail(err) {
             res.status(500).json({
                 error: err.message
             })
