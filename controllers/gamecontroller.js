@@ -1,8 +1,10 @@
-var router = require('express').Router();
-var Game = require('../models/game');
+const router = require('express').Router();
+const Game = require('../models/game');
+const sequelize = require('../db');
+const DataTypes = require('sequelize');
 
 router.get('/all', (req, res) => {
-    Game.findAll({ where: { owner_id: req.body.user.id } })
+    Game(sequelize, DataTypes).findAll({ where: { owner_id: 'req.body.user.id' } })
         .then(
             () => {
                 res.status(200).json({
@@ -19,7 +21,7 @@ router.get('/all', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    Game.findOne({ where: { id: req.params.id, owner_id: req.params.id } })
+    Game(sequelize, DataTypes).findOne({ where: { id: req.params.id, owner_id: req.params.id } })
         .then(
             game => {
                 res.status(200).json({
@@ -35,7 +37,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/create', (req, res) => {
-    Game.create({
+    Game(sequelize, DataTypes).create({
         title: req.body.game.title,
         owner_id: req.body.user.id,
         studio: req.body.game.studio,
@@ -57,7 +59,7 @@ router.post('/create', (req, res) => {
 })
 
 router.put('/update/:id', (req, res) => {
-    Game.update({
+    Game(sequelize, DataTypes).update({
         title: req.body.game.title,
         studio: req.body.game.studio,
         esrb_rating: req.body.game.esrb_rating,
@@ -86,7 +88,7 @@ router.put('/update/:id', (req, res) => {
 })
 
 router.delete('/remove/:id', (req, res) => {
-    Game.destroy({
+    Game(sequelize, DataTypes).destroy({
         where: {
             id: req.params.id,
             owner_id: req.body.user.id
