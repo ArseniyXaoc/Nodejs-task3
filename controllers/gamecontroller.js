@@ -4,9 +4,9 @@ var Game = require('../models/game');
 router.get('/all', (req, res) => {
     Game.findAll({ where: { owner_id: req.user.id } })
         .then(
-            function findSuccess(data) {
+            function findSuccess(game) {
                 res.status(200).json({
-                    games: games,
+                    games: game,
                     message: "Data fetched."
                 })
             })
