@@ -1,5 +1,5 @@
-var router = require('express').Router();
-var Game = require('../models/game');
+const router = require('express').Router();
+const Game = require('../models/game');
 
 router.get('/all', (req, res) => {
     Game.findAll({ where: { owner_id: req.body.user.id } })
@@ -25,7 +25,7 @@ router.get('/:id', (req, res) => {
                     game: game
                 })
             })
-        .catch(function findFail(err) {
+        .catch(function findFail() {
                 res.status(500).json({
                     message: "Data not found."
                 })
