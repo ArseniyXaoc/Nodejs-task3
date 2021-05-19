@@ -2,7 +2,7 @@ var router = require('express').Router();
 var Game = require('../models/game');
 
 router.get('/all', (req, res) => {
-    Game.findAll({ where: { owner_id: req.user.id } })
+    Game.findAll({ where: { owner_id: req.body.user.id } })
         .then(
             function findSuccess(game) {
                 res.status(200).json({
@@ -18,7 +18,7 @@ router.get('/all', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    Game.findOne({ where: { id: req.params.id, owner_id: req.user.id } })
+    Game.findOne({ where: { id: req.params.id, owner_id: req.params.id } })
         .then(
             function findSuccess(game) {
                 res.status(200).json({
@@ -66,7 +66,7 @@ router.put('/update/:id', (req, res) => {
         {
             where: {
                 id: req.params.id,
-                owner_id: req.user
+                owner_id: req.body.user.id,
             }
         })
         .then(
@@ -89,7 +89,7 @@ router.delete('/remove/:id', (req, res) => {
     Game.destroy({
         where: {
             id: req.params.id,
-            owner_id: req.user.id
+            owner_id: req.body.user.id,
         }
     })
     .then(
