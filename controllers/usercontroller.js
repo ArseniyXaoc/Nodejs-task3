@@ -4,9 +4,12 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
+const sequelize = require('../db');
+const {DataTypes} = require('sequelize');
+
 router.post('/signup', (req, res) => {
     const user = req.body.user;
-    User.create({
+    User(sequelize, DataTypes).create({
         full_name: user.full_name,
         username: user.username,
         passwordhash: bcrypt.hashSync(user.password, 10),
@@ -28,7 +31,7 @@ router.post('/signup', (req, res) => {
 
 router.post('/signin', (req, res) => {
     const user = req.body.user;
-    User.findOne({ where: { username: user.username } })
+    User(sequelize, DataTypes).findOne({ where: { username: user.username } })
         .then(user => {
         if (user) {
             bcrypt.compare(user.password, user.passwordHash, function (err, matches) {

@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
 var User = require('../models/user');
+const sequelize = require('../db');
+const {DataTypes} = require('sequelize');
 
 module.exports = function (req, res, next) {
-    if (req.method == 'OPTIONS') {
+    if (req.method === 'OPTIONS') {
         next();   // allowing options as a method for request
     } else {
         var sessionToken = req.headers.authorization;
@@ -11,7 +13,7 @@ module.exports = function (req, res, next) {
         else {
             jwt.verify(sessionToken, 'lets_play_sum_games_man', (err, decoded) => {
                 if (decoded) {
-                    User.findOne({ where: { id: decoded.id } }).then(user => {
+                    User(sequelize, DataTypes).findOne({ where: { id: decoded.id } }).then(user => {
                         req.user = user;
                         console.log(`user: ${user}`)
                         next()
