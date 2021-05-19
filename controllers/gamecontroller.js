@@ -1,20 +1,22 @@
-const router = require('express').Router();
-const Game = require('../models/game');
+var router = require('express').Router();
+var Game = require('../models/game');
 
 router.get('/all', (req, res) => {
     Game.findAll({ where: { owner_id: req.body.user.id } })
         .then(
-            function findSuccess(game) {
+            function findSuccess() {
                 res.status(200).json({
-                    games: game,
+                    games: games,
                     message: "Data fetched."
                 })
-            })
-        .catch(function findFail() {
-            res.status(500).json({
-                message: "Data not found"
-            })
-        })
+            },
+
+            function findFail() {
+                res.status(500).json({
+                    message: "Data not found"
+                })
+            }
+        )
 })
 
 router.get('/:id', (req, res) => {
@@ -24,8 +26,9 @@ router.get('/:id', (req, res) => {
                 res.status(200).json({
                     game: game
                 })
-            })
-        .catch(function findFail() {
+            },
+
+            function findFail(err) {
                 res.status(500).json({
                     message: "Data not found."
                 })
@@ -48,8 +51,9 @@ router.post('/create', (req, res) => {
                     game: game,
                     message: "Game created."
                 })
-            })
-        .catch(function createFail(err) {
+            },
+
+            function createFail(err) {
                 res.status(500).send(err.message)
             }
         )
@@ -75,8 +79,9 @@ router.put('/update/:id', (req, res) => {
                     game: game,
                     message: "Successfully updated."
                 })
-            })
-        .catch(function updateFail(err) {
+            },
+
+            function updateFail(err) {
                 res.status(500).json({
                     message: err.message
                 })
@@ -89,7 +94,7 @@ router.delete('/remove/:id', (req, res) => {
     Game.destroy({
         where: {
             id: req.params.id,
-            owner_id: req.body.user.id,
+            owner_id: req.body.user.id
         }
     })
     .then(
@@ -98,8 +103,9 @@ router.delete('/remove/:id', (req, res) => {
                 game: game,
                 message: "Successfully deleted"
             })
-        })
-        .catch(function deleteFail(err) {
+        },
+
+        function deleteFail(err) {
             res.status(500).json({
                 error: err.message
             })
