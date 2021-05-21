@@ -26,7 +26,7 @@ router.get('/all', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    gameModel.findOne({ where: { id: req.params.id, owner_id: req.params.id } })
+    gameModel.findOne({ where: { id: req.params.id, owner_id: req.user.id } })
         .then(
             game => {
                 res.status(200).json({
@@ -45,7 +45,7 @@ router.post('/create', (req, res) => {
 
     gameModel.create({
         title: req.body.game.title,
-        owner_id: req.body.user.id,
+        owner_id: req.user.id,
         studio: req.body.game.studio,
         esrb_rating: req.body.game.esrb_rating,
         user_rating: req.body.game.user_rating,
@@ -75,7 +75,7 @@ router.put('/update/:id', (req, res) => {
         {
             where: {
                 id: req.params.id,
-                owner_id: req.body.user.id,
+                owner_id: req.user.id,
             }
         })
         .then(
@@ -97,7 +97,7 @@ router.delete('/remove/:id', (req, res) => {
     gameModel.destroy({
         where: {
             id: req.params.id,
-            owner_id: req.body.user.id
+            owner_id: req.user.id
         }
     })
     .then(
