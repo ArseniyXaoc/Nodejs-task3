@@ -1,8 +1,8 @@
-var express = require('express');
-var app = express();
-var db = require('./db');
-var user = require('./controllers/usercontroller');
-var game = require('./controllers/gamecontroller');
+const express = require('express');
+const app = express();
+const db = require('./db');
+const user = require('./resources/routers/user.router');
+const game = require('./resources/routers/game.router');
 const PORT = 4000;
 const validateSession = require('./middleware/validate-session')
 

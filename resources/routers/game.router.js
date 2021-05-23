@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Game = require('../models/game');
-const sequelize = require('../db');
+const sequelize = require('../../db');
 const DataTypes = require('sequelize');
 
 sequelize.createSchema("games").then(() => {
