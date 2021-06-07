@@ -9,6 +9,7 @@ const Sequelize = require('sequelize');
 sequelize.authenticate().then(
     function success() {
         console.log("Connected to DB");
+        
     })
     .catch( function fail(err) {
         console.log(`Error: ${err}`);
